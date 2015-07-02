@@ -1,12 +1,12 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:edit, :update, :destroy]
+    before_action :set_message, only: [:edit, :update, :destroy]
   
   def index
     # Messageを全て取得する。
     @messages = Message.all
     @message = Message.new
   end
-  
+
   ## ここから追記
   def create
     @message = Message.new(message_params)
@@ -14,9 +14,9 @@ class MessagesController < ApplicationController
       redirect_to root_path , notice: 'メッセージを保存しました'
     else
       # メッセージが保存できなかった時
-       @messages = Message.all
-       flash.now[:alert] = "メッセージの保存に失敗しました。"
-       render 'index'
+      @messages = Message.all
+      flash.now[:alert] = "メッセージの保存に失敗しました。"
+      render 'index'
     end
   end
   
@@ -37,11 +37,12 @@ class MessagesController < ApplicationController
     @message.destroy
     redirect_to root_path, notice: 'メッセージを削除しました'
   end
-  
+
+  # ここから下はprivateメソッドとなる
   private
   def message_params
-    # params[:message]のパラメータでname , bodyのみを許可する。
-    # 返り血は ex:) {name: "入力されたname" , body: "入力されたbody" }
+    # params[:message]のパラメータで name , bodyのみを許可する。
+    # 返り値は ex:) {name: "入力されたname" , body: "入力されたbody" }
     params.require(:message).permit(:name, :body)
   end
   ## ここまで
